@@ -1,89 +1,97 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using System.Threading.Tasks;
-using Aki.Reflection.Patching;
 using BepInEx;
-using HarmonyLib;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace stckytwl.BulletCrack
+namespace stckytwl.BulletCrack;
+
+[BepInPlugin("com.stckytwl.bulletcrack", "stckytwl.bulletcrack", "1.0.0")]
+public class Plugin : BaseUnityPlugin
 {
-    [BepInPlugin("com.stckytwl.bulletcrack", "stckytwl.bulletcrack", "1.0.0")]
-    public class Plugin : BaseUnityPlugin
+    public static readonly List<SonicBulletSoundPlayer.SonicAudio> SonicAudios = [];
+
+    private void Awake()
     {
-        public static AudioClip[] AudioClips;
+        new SonicBulletSoundPatch().Enable();
+        new RandomizeSonicAudioPatch().Enable();
 
-        private void Awake()
+        LoadAudioClips();
+    }
+
+    private void LoadAudioClips()
+    {
+        var sonic9AudioDir= Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory + @"\BepInEx\plugins\BulletCrack\Sounds\Sonic9");
+        var sonic545AudioDir= Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory + @"\BepInEx\plugins\BulletCrack\Sounds\Sonic545");
+        var sonic762AudioDir= Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory + @"\BepInEx\plugins\BulletCrack\Sounds\Sonic762");
+        var sonicShotgunAudioDir= Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory + @"\BepInEx\plugins\BulletCrack\Sounds\SonicShotgun");
+
+        for (var i = 0; i < sonic9AudioDir.Length; i++)
         {
-            new FlyingBulletSoundPatch().Enable();
-
-            LoadAudioClips();
+            LoadAudioClip(sonic9AudioDir[i], SonicBulletSoundPlayer.SonicType.Sonic9);
+            Logger.LogWarning($"Loaded {sonic9AudioDir[i]}");
         }
-
-        private void LoadAudioClips()
+            
+        for (var i = 0; i < sonic545AudioDir.Length; i++)
         {
-            var audioFilesDir =
-                Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory + @"\BepInEx\plugins\BulletCrack\Sounds\");
-            AudioClips = new AudioClip[audioFilesDir.Length];
-
-            for (var i = 0; i < audioFilesDir.Length; i++)
-            {
-                LoadAudioClip(audioFilesDir[i], i);
-                Logger.LogWarning($"Loaded {audioFilesDir[i]}");
-            }
+            LoadAudioClip(sonic545AudioDir[i], SonicBulletSoundPlayer.SonicType.Sonic545);
+            Logger.LogWarning($"Loaded {sonic545AudioDir[i]}");
         }
-
-        private async void LoadAudioClip(string path, int index)
+            
+        for (var i = 0; i < sonic762AudioDir.Length; i++)
         {
-            AudioClips[index] = await RequestAudioClip(path);
+            LoadAudioClip(sonic762AudioDir[i], SonicBulletSoundPlayer.SonicType.Sonic762);
+            Logger.LogWarning($"Loaded {sonic762AudioDir[i]}");
         }
-
-        private async Task<AudioClip> RequestAudioClip(string path)
+            
+        for (var i = 0; i < sonicShotgunAudioDir.Length; i++)
         {
-            var extension = Path.GetExtension(path);
-            var audioType = AudioType.WAV;
-            switch (extension)
-            {
-                case ".wav":
-                    audioType = AudioType.WAV;
-                    break;
-                case ".ogg":
-                    audioType = AudioType.OGGVORBIS;
-                    break;
-            }
-
-            var uwr = UnityWebRequestMultimedia.GetAudioClip(path, audioType);
-            var sendWeb = uwr.SendWebRequest();
-
-            while (!sendWeb.isDone)
-                await Task.Yield();
-
-            if (uwr.isNetworkError || uwr.isHttpError)
-            {
-                Logger.LogError($"BulletCrack: Failed To Fetch Audio Clip {Path.GetFileNameWithoutExtension(path)}");
-                return null;
-            }
-
-            var audioclip = DownloadHandlerAudioClip.GetContent(uwr);
-            audioclip.name = Path.GetFileNameWithoutExtension(path);
-            return audioclip;
+            LoadAudioClip(sonicShotgunAudioDir[i], SonicBulletSoundPlayer.SonicType.SonicShotgun);
+            Logger.LogWarning($"Loaded {sonicShotgunAudioDir[i]}");
         }
     }
 
-    public class FlyingBulletSoundPatch : ModulePatch
+    private async void LoadAudioClip(string path, SonicBulletSoundPlayer.SonicType sonicType)
     {
-        protected override MethodBase GetTargetMethod()
+        var audioClip = await RequestAudioClip(path);
+        var sonicAudio = new SonicBulletSoundPlayer.SonicAudio
         {
-            return typeof(FlyingBulletSoundPlayer).GetMethod("Init", BindingFlags.Public | BindingFlags.Instance);
+            Clip = audioClip,
+            Type = sonicType
+        };
+        SonicAudios.Add(sonicAudio);
+    }
+
+    private async Task<AudioClip> RequestAudioClip(string path)
+    {
+        var extension = Path.GetExtension(path);
+        var audioType = AudioType.WAV;
+        switch (extension)
+        {
+            case ".wav":
+                audioType = AudioType.WAV;
+                break;
+            case ".ogg":
+                audioType = AudioType.OGGVORBIS;
+                break;
         }
 
-        [PatchPrefix]
-        // ReSharper disable all InconsistentNaming
-        public static void Prefix(FlyingBulletSoundPlayer __instance, ref AudioClip[] ____sources)
+        var uwr = UnityWebRequestMultimedia.GetAudioClip(path, audioType);
+        var sendWeb = uwr.SendWebRequest();
+
+        while (!sendWeb.isDone)
+            await Task.Yield();
+
+        if (uwr.isNetworkError || uwr.isHttpError)
         {
-            ____sources = Plugin.AudioClips;
+            Logger.LogError($"BulletCrack: Failed To Fetch Audio Clip {Path.GetFileNameWithoutExtension(path)}");
+            return null;
         }
+
+        var audioclip = DownloadHandlerAudioClip.GetContent(uwr);
+        audioclip.name = Path.GetFileNameWithoutExtension(path);
+        return audioclip;
     }
 }
