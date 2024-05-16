@@ -4,7 +4,7 @@ using System.Reflection;
 using Aki.Reflection.Patching;
 
 // ReSharper disable all InconsistentNaming
-namespace stckytwl.BulletCrack;
+namespace stckytwl.BetterBulletCracks;
 
 public class ReplaceSonicBulletSoundsPatch : ModulePatch
 {
@@ -39,7 +39,7 @@ public class RandomizeSonicAudioPatch : ModulePatch
     }
 }
 
-public class ModifySonicAudioPatch : ModulePatch
+public class ModifySonicAudioVolumePatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {

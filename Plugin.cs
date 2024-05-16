@@ -9,9 +9,9 @@ using BepInEx.Configuration;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace stckytwl.BulletCrack;
+namespace stckytwl.BetterBulletCracks;
 
-[BepInPlugin("com.stckytwl.bulletcrack", "stckytwl.BulletCrack", "1.0.0")]
+[BepInPlugin("com.stckytwl.betterbulletcracks", "stckytwl.BetterBulletCracks", "1.0.0")]
 public class Plugin : BaseUnityPlugin
 {
     public static readonly List<SonicBulletSoundPlayer.SonicAudio> SonicAudios = [];
@@ -33,7 +33,7 @@ public class Plugin : BaseUnityPlugin
 
         new ReplaceSonicBulletSoundsPatch().Enable();
         new RandomizeSonicAudioPatch().Enable();
-        new ModifySonicAudioPatch().Enable();
+        new ModifySonicAudioVolumePatch().Enable();
 
         LoadAudioClips();
     }
@@ -105,7 +105,7 @@ public class Plugin : BaseUnityPlugin
                 audioType = AudioType.OGGVORBIS;
                 break;
             default:
-                Logger.LogWarning($"BulletCrack: \"{Path.GetFileNameWithoutExtension(path)}\" is not a valid audio file! {extension}");
+                Logger.LogWarning($"BetterBulletCracks: \"{Path.GetFileNameWithoutExtension(path)}\" is not a valid audio file! {extension}");
                 return null;
         }
 
@@ -117,7 +117,7 @@ public class Plugin : BaseUnityPlugin
 
         if (uwr.isNetworkError || uwr.isHttpError)
         {
-            Logger.LogError($"BulletCrack: Failed To Fetch Audio Clip \"{Path.GetFileNameWithoutExtension(path)}\"");
+            Logger.LogError($"BetterBulletCracks: Failed To Fetch Audio Clip \"{Path.GetFileNameWithoutExtension(path)}\"");
             return null;
         }
 
