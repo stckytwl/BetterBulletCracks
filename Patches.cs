@@ -6,7 +6,7 @@ using Aki.Reflection.Patching;
 // ReSharper disable all InconsistentNaming
 namespace stckytwl.BulletCrack;
 
-public class SonicBulletSoundPatch : ModulePatch
+public class ReplaceSonicBulletSoundsPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
@@ -14,7 +14,7 @@ public class SonicBulletSoundPatch : ModulePatch
     }
 
     [PatchPrefix]
-    public static void Prefix(SonicBulletSoundPlayer __instance, ref List<SonicBulletSoundPlayer.SonicAudio> ____sources)
+    public static void Prefix(ref List<SonicBulletSoundPlayer.SonicAudio> ____sources)
     {
         ____sources = Plugin.SonicAudios;
     }
@@ -36,5 +36,20 @@ public class RandomizeSonicAudioPatch : ModulePatch
         var randomSonicAudio = sorted[num];
 
         __result = randomSonicAudio;
+    }
+}
+
+public class ModifySonicAudioPatch : ModulePatch
+{
+    protected override MethodBase GetTargetMethod()
+    {
+        return typeof(SonicBulletSoundPlayer.Class460).GetMethod("Initialize", BindingFlags.Public | BindingFlags.Instance);
+    }
+
+    [PatchPostfix]
+    public static void PatchPostFix(ref float ___float_1)
+    {
+        var newVolume = ___float_1 * Plugin.PluginVolume.Value / 100f;
+        ___float_1 = newVolume;
     }
 }

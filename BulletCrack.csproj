@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props"
+    Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -30,40 +31,47 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <TarkovDir Condition=" '$(TarkovDir)' == '' ">K:\Games\SPT - 3.8.3 - Dev\</TarkovDir>
+    <TarkovManagedDir>K:\Games\SPT - 3.8.3 - Dev\EscapeFromTarkov_Data\Managed\</TarkovManagedDir>
+    <TarkovBepInExCoreDir>K:\Games\SPT - 3.8.3 - Dev\BepInEx\core\</TarkovBepInExCoreDir>
+    <TarkovBepInExSptPluginDir>K:\Games\SPT - 3.8.3 - Dev\BepInEx\plugins\spt\</TarkovBepInExSptPluginDir>
+    <TargetSptVersion>3.8.3</TargetSptVersion>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="HarmonyLib">
-      <HintPath>E:\eft\References - 3.8.2 BE\0Harmony.dll</HintPath>
+      <HintPath>$(TarkovBepInExCoreDir)0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Aki.Reflection">
-      <HintPath>E:\eft\test\References\Aki.Reflection.dll</HintPath>
+      <HintPath>$(TarkovManagedDir)Aki.Common.dll</HintPath>
     </Reference>
     <Reference Include="Aki.Common">
-      <HintPath>E:\eft\test\References\Aki.Common.dll</HintPath>
+      <HintPath>$(TarkovManagedDir)Aki.Reflection.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <HintPath>E:\eft\test\References\Assembly-CSharp.dll</HintPath>
+      <HintPath>$(TarkovManagedDir)Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="BepInEx">
-      <HintPath>E:\eft\test\References\BepInEx.dll</HintPath>
+      <HintPath>$(TarkovBepInExCoreDir)BepInEx.dll</HintPath>
     </Reference>
     <Reference Include="Comfort">
-      <HintPath>E:\eft\test\References\Comfort.dll</HintPath>
+      <HintPath>$(TarkovManagedDir)Comfort.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="UnityEngine">
-      <HintPath>E:\eft\test\References\UnityEngine.dll</HintPath>
+      <HintPath>$(TarkovManagedDir)UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AudioModule">
-      <HintPath>E:\eft\test\References\UnityEngine.AudioModule.dll</HintPath>
+      <HintPath>$(TarkovManagedDir)UnityEngine.AudioModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>E:\eft\test\References\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>$(TarkovManagedDir)UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestAudioModule">
-      <HintPath>E:\eft\test\References\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+      <HintPath>$(TarkovManagedDir)UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestModule">
-      <HintPath>E:\eft\test\References\UnityEngine.UnityWebRequestModule.dll</HintPath>
+      <HintPath>$(TarkovManagedDir)UnityEngine.UnityWebRequestModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -72,4 +80,19 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
+  <!-- Thank you to mpstark for this. Absolute gamechanger. -->
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <ItemGroup>
+      <OutputDLL Include="$(ProjectDir)$(OutDir)$(TargetName).dll" />
+      <Resources Include="$(ProjectDir)Resources\*" />
+    </ItemGroup>
+
+    <RemoveDir Directories="$(ProjectDir)release" />
+    <Copy SourceFiles="@(OutputDLL);@(Resources)"
+      DestinationFolder="$(ProjectDir)release\$(TargetName)\BepInEx\plugins\$(TargetName)" />
+    <ZipDirectory SourceDirectory="$(ProjectDir)release\$(TargetName)\"
+      DestinationFile="$(ProjectDir)release\$(TargetName)-$(Version)-$(SourceRevisionId).zip" />
+  </Target>
+  
 </Project>
