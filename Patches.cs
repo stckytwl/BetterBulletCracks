@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Aki.Reflection.Patching;
+using SPT.Reflection.Patching;
 
 // ReSharper disable all InconsistentNaming
 namespace stckytwl.BetterBulletCracks;
@@ -43,7 +43,7 @@ public class ModifySonicAudioVolumePatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return typeof(SonicBulletSoundPlayer.Class460).GetMethod("Initialize", BindingFlags.Public | BindingFlags.Instance);
+        return typeof(SonicBulletSoundPlayer.Class467).GetMethod("Initialize", BindingFlags.Public | BindingFlags.Instance);
     }
 
     [PatchPostfix]
