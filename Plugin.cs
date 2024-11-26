@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using BepInEx;
 using BepInEx.Configuration;
 using SPT.Common.Utils;
-using EFT.Communications;
 using UnityEngine;
 using UnityEngine.Networking;
 
