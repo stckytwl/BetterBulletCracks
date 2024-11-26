@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using SPT.Reflection.Patching;
+using HarmonyLib;
 
 // ReSharper disable all InconsistentNaming
 namespace stckytwl.BetterBulletCracks;
@@ -10,7 +11,7 @@ public class ReplaceSonicBulletSoundsPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return typeof(SonicBulletSoundPlayer).GetMethod("Awake", BindingFlags.Public | BindingFlags.Instance);
+        return AccessTools.Method(typeof(SonicBulletSoundPlayer), nameof(SonicBulletSoundPlayer.Awake));
     }
 
     [PatchPrefix]
@@ -24,7 +25,7 @@ public class RandomizeSonicAudioPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return typeof(SonicBulletSoundPlayer).GetMethod("method_0", BindingFlags.Public | BindingFlags.Instance);
+        return AccessTools.Method(typeof(SonicBulletSoundPlayer), nameof(SonicBulletSoundPlayer.method_0));
     }
 
     [PatchPostfix]
@@ -43,7 +44,7 @@ public class ModifySonicAudioVolumePatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return typeof(SonicBulletSoundPlayer.Class467).GetMethod("Initialize", BindingFlags.Public | BindingFlags.Instance);
+        return AccessTools.Method(typeof(SonicBulletSoundPlayer.Class522), nameof(SonicBulletSoundPlayer.Class522.Initialize));
     }
 
     [PatchPostfix]
