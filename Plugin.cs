@@ -3,25 +3,35 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
-using SPT.Common.Utils;
 using BepInEx;
 using BepInEx.Configuration;
+using SPT.Common.Utils;
+using EFT.Communications;
 using UnityEngine;
 using UnityEngine.Networking;
 
 namespace stckytwl.BetterBulletCracks;
 
-[BepInPlugin("com.stckytwl.betterbulletcracks", "stckytwl.BetterBulletCracks", "1.0.0")]
+[BepInPlugin("com.stckytwl.betterbulletcracks", "stckytwl.BetterBulletCracks", "1.0.1")]
 public class Plugin : BaseUnityPlugin
 {
     public static readonly List<SonicBulletSoundPlayer.SonicAudio> SonicAudios = [];
     private string _soundFilesDirectory;
+
     private static readonly Dictionary<string, SonicBulletSoundPlayer.SonicType> SubDirMappings = new()
     {
-        { "Sonic9", SonicBulletSoundPlayer.SonicType.Sonic9 },
-        { "Sonic545", SonicBulletSoundPlayer.SonicType.Sonic545 },
-        { "Sonic762", SonicBulletSoundPlayer.SonicType.Sonic762 },
-        { "SonicShotgun", SonicBulletSoundPlayer.SonicType.SonicShotgun }
+        {
+            "Sonic9", SonicBulletSoundPlayer.SonicType.Sonic9
+        },
+        {
+            "Sonic545", SonicBulletSoundPlayer.SonicType.Sonic545
+        },
+        {
+            "Sonic762", SonicBulletSoundPlayer.SonicType.Sonic762
+        },
+        {
+            "SonicShotgun", SonicBulletSoundPlayer.SonicType.SonicShotgun
+        }
     };
 
     public static ConfigEntry<float> PluginVolume;
@@ -29,7 +39,7 @@ public class Plugin : BaseUnityPlugin
     private void Awake()
     {
         _soundFilesDirectory = Assembly.GetExecutingAssembly().Location.GetDirectory() + @"\";
-        PluginVolume = Config.Bind("", "Sonic Crack Volume", 100f, new ConfigDescription("", new AcceptableValueRange<float>(0f, 200f)));
+        PluginVolume = Config.Bind("", "Sonic Crack Volume", 100f);
 
         new ReplaceSonicBulletSoundsPatch().Enable();
         new RandomizeSonicAudioPatch().Enable();
@@ -41,13 +51,13 @@ public class Plugin : BaseUnityPlugin
     private void LoadAudioClips()
     {
         var bulletCrackSoundsDir = Path.Combine(_soundFilesDirectory, "Sounds");
-        
+
         if (!Directory.Exists(bulletCrackSoundsDir))
         {
             Logger.LogError($"Directory {bulletCrackSoundsDir} does not exist.");
             return;
         }
-        
+
         foreach (var entry in SubDirMappings)
         {
             var subDirPath = Path.Combine(bulletCrackSoundsDir, entry.Key);
@@ -60,19 +70,6 @@ public class Plugin : BaseUnityPlugin
             var audioFiles = Directory.GetFiles(subDirPath);
             LoadAudioClips(audioFiles, entry.Value);
             Logger.LogInfo($"Loading {audioFiles.Length} files from {subDirPath}");
-        }
-        
-        var sharedDirPath = Path.Combine(bulletCrackSoundsDir, "Shared");
-        if (!Directory.Exists(sharedDirPath))
-        {
-            Logger.LogWarning($"Directory {sharedDirPath} does not exist.");
-            return;
-        }
-
-        var sharedAudioFiles = Directory.GetFiles(sharedDirPath);
-        foreach (var i in SubDirMappings.Values)
-        {
-            LoadAudioClips(sharedAudioFiles, i);
         }
     }
 

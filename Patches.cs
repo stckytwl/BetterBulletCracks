@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using SPT.Reflection.Patching;
 using HarmonyLib;
+using SPT.Reflection.Patching;
+using UnityEngine;
 
 // ReSharper disable all InconsistentNaming
 namespace stckytwl.BetterBulletCracks;
@@ -33,7 +34,7 @@ public class RandomizeSonicAudioPatch : ModulePatch
     {
         var resultType = __result.Type;
         var sorted = ____sources.Where(i => i.Type == resultType).ToList();
-        var num = UnityEngine.Random.Range(0, sorted.Count);
+        var num = Random.Range(0, sorted.Count);
         var randomSonicAudio = sorted[num];
 
         __result = randomSonicAudio;

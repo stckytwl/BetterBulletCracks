@@ -1,101 +1,101 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props"
-    Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8FDFC616-1704-4056-A87E-2783692CC153}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>stckytwl.BetterBulletCracks</RootNamespace>
-    <AssemblyName>stckytwl.BetterBulletCracks</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <TarkovDir Condition=" '$(TarkovDir)' == '' ">C:\Games\SPT - 3.10\</TarkovDir>
-    <TarkovManagedDir>$(TarkovDir)EscapeFromTarkov_Data\Managed\</TarkovManagedDir>
-    <TarkovBepInExCoreDir>$(TarkovDir)BepInEx\core\</TarkovBepInExCoreDir>
-    <TarkovBepInExSptPluginDir>$(TarkovDir)BepInEx\plugins\spt\</TarkovBepInExSptPluginDir>
-    <TargetSptVersion>3.10</TargetSptVersion>
-    <SourceRevisionId>1.0.0</SourceRevisionId>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="HarmonyLib">
-      <HintPath>$(TarkovBepInExCoreDir)0Harmony.dll</HintPath>
-    </Reference>
-    <Reference Include="SPT.Reflection">
-      <HintPath>$(TarkovBepInExSptPluginDir)spt-reflection.dll</HintPath>
-    </Reference>
-    <Reference Include="SPT.Common">
-      <HintPath>$(TarkovBepInExSptPluginDir)spt-common.dll</HintPath>
-    </Reference>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>$(TarkovManagedDir)Assembly-CSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="BepInEx">
-      <HintPath>$(TarkovBepInExCoreDir)BepInEx.dll</HintPath>
-    </Reference>
-    <Reference Include="Comfort">
-      <HintPath>$(TarkovManagedDir)Comfort.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="UnityEngine">
-      <HintPath>$(TarkovManagedDir)UnityEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.AudioModule">
-      <HintPath>$(TarkovManagedDir)UnityEngine.AudioModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>$(TarkovManagedDir)UnityEngine.CoreModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UnityWebRequestAudioModule">
-      <HintPath>$(TarkovManagedDir)UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UnityWebRequestModule">
-      <HintPath>$(TarkovManagedDir)UnityEngine.UnityWebRequestModule.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Plugin.cs" />
-    <Compile Include="Patches.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props"
+            Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProjectGuid>{8FDFC616-1704-4056-A87E-2783692CC153}</ProjectGuid>
+        <OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>stckytwl.BetterBulletCracks</RootNamespace>
+        <AssemblyName>stckytwl.BetterBulletCracks</AssemblyName>
+        <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+        <FileAlignment>512</FileAlignment>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <PropertyGroup>
+        <TarkovDir Condition=" '$(TarkovDir)' == '' ">C:\Games\SPT - 3.10\</TarkovDir>
+        <TarkovManagedDir>$(TarkovDir)EscapeFromTarkov_Data\Managed\</TarkovManagedDir>
+        <TarkovBepInExCoreDir>$(TarkovDir)BepInEx\core\</TarkovBepInExCoreDir>
+        <TarkovBepInExSptPluginDir>$(TarkovDir)BepInEx\plugins\spt\</TarkovBepInExSptPluginDir>
+        <TargetSptVersion>3.10</TargetSptVersion>
+        <SourceRevisionId>1.0.1</SourceRevisionId>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="HarmonyLib">
+            <HintPath>$(TarkovBepInExCoreDir)0Harmony.dll</HintPath>
+        </Reference>
+        <Reference Include="SPT.Reflection">
+            <HintPath>$(TarkovBepInExSptPluginDir)spt-reflection.dll</HintPath>
+        </Reference>
+        <Reference Include="SPT.Common">
+            <HintPath>$(TarkovBepInExSptPluginDir)spt-common.dll</HintPath>
+        </Reference>
+        <Reference Include="Assembly-CSharp">
+            <HintPath>$(TarkovManagedDir)Assembly-CSharp.dll</HintPath>
+        </Reference>
+        <Reference Include="BepInEx">
+            <HintPath>$(TarkovBepInExCoreDir)BepInEx.dll</HintPath>
+        </Reference>
+        <Reference Include="Comfort">
+            <HintPath>$(TarkovManagedDir)Comfort.dll</HintPath>
+        </Reference>
+        <Reference Include="System"/>
+        <Reference Include="UnityEngine">
+            <HintPath>$(TarkovManagedDir)UnityEngine.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.AudioModule">
+            <HintPath>$(TarkovManagedDir)UnityEngine.AudioModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.CoreModule">
+            <HintPath>$(TarkovManagedDir)UnityEngine.CoreModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.UnityWebRequestAudioModule">
+            <HintPath>$(TarkovManagedDir)UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.UnityWebRequestModule">
+            <HintPath>$(TarkovManagedDir)UnityEngine.UnityWebRequestModule.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="Plugin.cs"/>
+        <Compile Include="Patches.cs"/>
+        <Compile Include="Properties\AssemblyInfo.cs"/>
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
 
     <!-- Thank you to mpstark for this. Absolute gamechanger. -->
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-      <ItemGroup>
-          <OutputDLL Include="$(ProjectDir)$(OutDir)$(TargetName).dll"/>
-          <OutputPDB Include="$(ProjectDir)$(OutDir)$(TargetName).pdb"/>
-          <Resources Include="$(ProjectDir)Resources\*"/>
-      </ItemGroup>
+        <ItemGroup>
+            <OutputDLL Include="$(ProjectDir)$(OutDir)$(TargetName).dll"/>
+            <OutputPDB Include="$(ProjectDir)$(OutDir)$(TargetName).pdb"/>
+            <Resources Include="$(ProjectDir)Resources\*"/>
+        </ItemGroup>
 
-      <Copy SourceFiles="@(OutputDLL);@(Resources)" DestinationFolder="$(TarkovDir)BepInEx\plugins\$(TargetName)"/>
-      <Copy SourceFiles="@(OutputPDB)" DestinationFolder="$(TarkovDir)BepInEx\plugins\$(TargetName)"/>
+        <Copy SourceFiles="@(OutputDLL);@(Resources)" DestinationFolder="$(TarkovDir)BepInEx\plugins\$(TargetName)"/>
+        <Copy SourceFiles="@(OutputPDB)" DestinationFolder="$(TarkovDir)BepInEx\plugins\$(TargetName)"/>
 
-      <RemoveDir Directories="$(ProjectDir)release"/>
-      <Copy SourceFiles="@(OutputDLL);@(Resources)" DestinationFolder="$(ProjectDir)release\$(TargetName)\BepInEx\plugins\$(TargetName)"/>
-      <ZipDirectory SourceDirectory="$(ProjectDir)release\$(TargetName)\" DestinationFile="$(ProjectDir)release\$(TargetName)-$(TargetSptVersion)-$(SourceRevisionId).zip"/>
-  </Target>
+        <RemoveDir Directories="$(ProjectDir)release"/>
+        <Copy SourceFiles="@(OutputDLL);@(Resources)" DestinationFolder="$(ProjectDir)release\$(TargetName)\BepInEx\plugins\$(TargetName)"/>
+        <ZipDirectory SourceDirectory="$(ProjectDir)release\$(TargetName)\" DestinationFile="$(ProjectDir)release\$(TargetName)-$(TargetSptVersion)-$(SourceRevisionId).zip"/>
+    </Target>
 
 </Project>
