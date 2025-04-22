@@ -110,7 +110,7 @@ public class Plugin : BaseUnityPlugin
         while (!sendWeb.isDone)
             await Task.Yield();
 
-        if (uwr.isNetworkError || uwr.isHttpError)
+        if (uwr.result is UnityWebRequest.Result.ConnectionError or UnityWebRequest.Result.ProtocolError)
         {
             Logger.LogError($"BetterBulletCracks: Failed To Fetch Audio Clip \"{Path.GetFileNameWithoutExtension(path)}\"");
             return null;

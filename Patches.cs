@@ -45,7 +45,7 @@ public class ModifySonicAudioVolumePatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(SonicBulletSoundPlayer.Class522), nameof(SonicBulletSoundPlayer.Class522.Initialize));
+        return AccessTools.Method(typeof(SonicBulletSoundPlayer.Class518), nameof(SonicBulletSoundPlayer.Class518.Initialize));
     }
 
     [PatchPostfix]
